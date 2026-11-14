@@ -90,6 +90,11 @@ link-watcher https://example.com/blog --selector "article h2 a" --dry-run -v
 以降は 30 分ごとに実行され、状態は `.linkwatch/state.json` として自動コミットされます。<br>
 手動実行時は `dry_run` / `no_seed` を切り替えられます。
 
+`WATCH_URL` が未設定のあいだは、スケジュール実行はエラーではなく「設定待ちでスキップ」します（実行ログに notice が出ます）。
+
+> 定期実行で状態をコミットするため、ワークフローには `contents: write` 権限を付けています。<br>
+> リポジトリ設定で Actions からの書き込みが禁止されている場合は、`Settings → Actions → General → Workflow permissions` を確認してください。
+
 ## CLI リファレンス
 
 ```text
