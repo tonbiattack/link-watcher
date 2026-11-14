@@ -1,0 +1,49 @@
+name: Bug report
+description: Report something that does not work as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please do not paste channel access tokens or any other secrets.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Include the command you ran and the log output (`-v` or `-vv` helps).
+      placeholder: |
+        $ link-watcher https://example.com/news --selector "h2 a" -v
+        2026-01-01T00:00:00+0000 INFO linkwatcher: Fetching ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: link-watcher version
+      description: Output of `link-watcher --version`
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version and OS
+      placeholder: "3.12.4 on Ubuntu 24.04"
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where does it fail?
+      multiple: true
+      options:
+        - Local CLI
+        - GitHub Actions
+        - Both
+    validations:
+      required: true

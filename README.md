@@ -7,6 +7,11 @@
 Web ページのリンクを定期的に取得し、**新しく増えたリンクだけ**を LINE に通知する小さなツールです。<br>
 GitHub Actions での定期実行を想定していますが、CLI としても使えます。
 
+> **English**: link-watcher periodically fetches a page, diffs its links against the previous
+> snapshot, and sends only the new ones to LINE via the Messaging API. It runs as a CLI or as a
+> scheduled GitHub Actions workflow, needs only BeautifulSoup and requests, and is fully tested.
+> See [Configuration](#設定一覧) and [GitHub Actions](#github-actions-で使う) for setup.
+
 > 以前のバージョンは LINE Notify を使っていましたが、同サービスは 2025 年 3 月 31 日に終了しました。<br>
 > このバージョンは **LINE Messaging API** に移行済みです。
 
@@ -148,6 +153,10 @@ ruff format --check .
 - 対象サイトの利用規約と `robots.txt` を確認し、常識的な間隔でアクセスしてください
 - チャンネルアクセストークンは Secrets で管理し、リポジトリにコミットしないでください
 - GitHub Actions のスケジュール実行は、混雑時に数分〜数十分遅延することがあります
+
+## 類似プロジェクト
+
+姉妹プロジェクトの [avlabo-link-watcher](https://github.com/tonbiattack/avlabo-link-watcher) は、本プロジェクトを特定サイト向けに設定した実用例です。
 
 ## ライセンス
 
