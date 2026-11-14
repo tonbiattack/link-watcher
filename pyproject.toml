@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "link-watcher"
+version = "1.0.0"
+description = "Watch a web page for new links and get notified on LINE."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "tonbiattack", email = "40497724+tonbiattack@users.noreply.github.com" }]
+keywords = ["link-checker", "line", "messaging-api", "scraping", "web-monitoring"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Utilities",
+]
+dependencies = [
+  "beautifulsoup4>=4.12",
+  "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+]
+
+[project.scripts]
+link-watcher = "linkwatcher.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/tonbiattack/link-watcher"
+Issues = "https://github.com/tonbiattack/link-watcher/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["linkwatcher"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4", "PTH"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
