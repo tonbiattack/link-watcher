@@ -19,10 +19,8 @@ env/
 .coverage
 htmlcov/
 
-# Watcher state produced by local runs.
-# The state file itself is tracked so scheduled runs can persist it; anything else is not.
-.linkwatch/*
-!.linkwatch/state.json
+# Watcher state produced by local runs
+.linkwatch/
 log.log
 
 # Editors / OS

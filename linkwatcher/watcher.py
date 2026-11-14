@@ -13,8 +13,6 @@ from urllib.request import Request, urlopen
 
 from bs4 import BeautifulSoup
 
-SKIPPED_SCHEMES = frozenset({"javascript", "mailto", "tel", "data", "sms", "blob"})
-
 
 class FetchError(RuntimeError):
     """Raised when the watched page cannot be downloaded."""
@@ -73,9 +71,7 @@ def extract_links(html: str, *, base_url: str, selector: str) -> set[str]:
         absolute, _ = urldefrag(absolute)
         parsed = urlparse(absolute)
 
-        if parsed.scheme not in {"http", "https"} or parsed.scheme in SKIPPED_SCHEMES:
-            continue
-        if not parsed.netloc:
+        if parsed.scheme.lower() not in {"http", "https"} or not parsed.netloc:
             continue
 
         links.add(

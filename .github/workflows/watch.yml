@@ -16,7 +16,7 @@ on:
         default: false
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: watch
@@ -42,6 +42,17 @@ jobs:
             echo "skip=0" >> "$GITHUB_OUTPUT"
           fi
 
+      # The watcher keeps its snapshot between runs. A cache avoids committing
+      # state back into the repository on every single run.
+      - name: Restore previous snapshot
+        if: steps.config.outputs.skip != '1'
+        uses: actions/cache@v5
+        with:
+          path: .linkwatch
+          key: linkwatch-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            linkwatch-${{ github.ref_name }}-
+
       - uses: actions/setup-python@v7
         if: steps.config.outputs.skip != '1'
         with:
@@ -66,18 +77,3 @@ jobs:
           WATCH_DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
           WATCH_NO_SEED: ${{ inputs.no_seed && '1' || '' }}
         run: link-watcher -v
-
-      - name: Commit state
-        if: steps.config.outputs.skip != '1'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p .linkwatch
-          git add -A -- .linkwatch
-          if git diff --cached --quiet; then
-            echo "No state change"
-            exit 0
-          fi
-          git commit -m "chore: update watch state"
-          git pull --rebase
-          git push origin "HEAD:${GITHUB_REF_NAME}"

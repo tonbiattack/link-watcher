@@ -87,13 +87,13 @@ link-watcher https://example.com/blog --selector "article h2 a" --dry-run -v
    - `WATCH_IGNORE`（任意、改行区切り）
 4. `Watch` ワークフローを手動実行（`workflow_dispatch`）して動作確認
 
-以降は 30 分ごとに実行され、状態は `.linkwatch/state.json` として自動コミットされます。<br>
-手動実行時は `dry_run` / `no_seed` を切り替えられます。
+以降は 30 分ごとに実行され、前回のスナップショットは **Actions のキャッシュ**（`.linkwatch`）に保存されます。<br>
+リポジトリに状態をコミットしないので、履歴が `chore: update watch state` で埋まりません。手動実行時は `dry_run` / `no_seed` を切り替えられます。
 
 `WATCH_URL` が未設定のあいだは、スケジュール実行はエラーではなく「設定待ちでスキップ」します（実行ログに notice が出ます）。
 
-> 定期実行で状態をコミットするため、ワークフローには `contents: write` 権限を付けています。<br>
-> リポジトリ設定で Actions からの書き込みが禁止されている場合は、`Settings → Actions → General → Workflow permissions` を確認してください。
+> キャッシュは 7 日間アクセスがないと削除されます。その場合の次回実行は初回扱い（シード）になり、通知は飛びません。<br>
+> 状態を Git で管理したい場合は、`WATCH_STATE_PATH` をリポジトリ内のパス（例: `state/links.json`）にして、ワークフローに状態のコミット手順を追加してください。
 
 ## CLI リファレンス
 
